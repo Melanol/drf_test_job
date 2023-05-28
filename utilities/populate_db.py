@@ -1,3 +1,7 @@
+"""
+Run this in "python manage.py shell".
+"""
+
 from notifications.models import Notification, Client, Message
 
 

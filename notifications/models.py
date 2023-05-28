@@ -5,15 +5,14 @@ from django.db import models
 class Notification(models.Model):
     send_time = models.DateTimeField(default=datetime.now())
     text = models.CharField(max_length=255, blank=True, default='')
-    filter = models.CharField(max_length=255, blank=True, default='')  # фильтр свойств клиентов, на которых должна быть произведена рассылка
-                                 # (код мобильного оператора, тег)
+    filter = models.CharField(max_length=255, blank=True, default='')
     stop_sending_time = models.DateTimeField(default=datetime.now() + timedelta(minutes=60))
 
 
 class Client(models.Model):
-    phone = models.IntegerField()  # номер телефона клиента в формате 7XXXXXXXXXX (X - цифра от 0 до 9)
-    operator_code = models.IntegerField()
-    tag = models.CharField(max_length=255)
+    phone = models.IntegerField()  # 7XXXXXXXXXX
+    operator_code = models.IntegerField(editable=False)
+    tag = models.CharField(max_length=255, blank=True)
     timezone = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):

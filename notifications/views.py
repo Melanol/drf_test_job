@@ -48,7 +48,7 @@ class NotificationViewSet(viewsets.ModelViewSet):
             clients = out_clients
 
         # Send messages
-        responses = []
+        responses = {}
         for client in clients:
             message = Message(notification_id=notification.id, client_id=client.id)
             message.save()
@@ -60,10 +60,8 @@ class NotificationViewSet(viewsets.ModelViewSet):
             response = requests.post(f"https://probe.fbrq.cloud/v1/send/{message.id}",
                                      headers={"Authorization": f"Bearer {settings.TOKEN}"},
                                      json=request_body)
-            responses.append(response.json())
-
-        # return JsonResponse(response.json())
-        return HttpResponse(str(responses))
+            responses[message.id] = response.json()
+        return JsonResponse(responses)
 
 
 class ClientViewSet(viewsets.ModelViewSet):
