@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from django.db import models
+from timezone_field import TimeZoneField
 
 
 class Notification(models.Model):
@@ -13,7 +14,7 @@ class Client(models.Model):
     phone = models.IntegerField(blank=False, null=False, unique=True)
     operator_code = models.IntegerField(editable=False)
     tag = models.CharField(max_length=255, blank=True)
-    timezone = models.IntegerField(null=False, default=0)
+    timezone = TimeZoneField(default="Europe/Moscow")
 
     def save(self, *args, **kwargs):
         self.operator_code = int(str(self.phone)[1:4])

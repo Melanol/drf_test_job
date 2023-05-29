@@ -36,8 +36,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 ]
 
-# TODO: Timezone
-
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",

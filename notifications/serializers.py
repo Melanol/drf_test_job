@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from notifications.models import Notification, Client, Message
+from timezone_field.rest_framework import TimeZoneSerializerField
 
 
 class NotificationSerializer(serializers.HyperlinkedModelSerializer):
@@ -11,6 +12,8 @@ class NotificationSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class ClientSerializer(serializers.HyperlinkedModelSerializer):
+    timezone = TimeZoneSerializerField()
+
     class Meta:
         model = Client
         fields = ['url', 'id', 'phone', 'operator_code', 'tag', 'timezone']
