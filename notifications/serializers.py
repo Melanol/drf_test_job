@@ -7,16 +7,24 @@ class NotificationSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Notification
-        fields = ['id', 'send', 'send_time', 'text', 'filter', 'stop_sending_time']
+        fields = ['url', 'id', 'send', 'send_time', 'text', 'filter', 'stop_sending_time']
 
 
 class ClientSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Client
-        fields = ['id', 'phone', 'operator_code', 'tag', 'timezone']
+        fields = ['url', 'id', 'phone', 'operator_code', 'tag', 'timezone']
+
+    def validate(self, data):
+        """
+        Check that the phone number is in the 7XXXXXXXXXX form and the client is not already in the database.
+        """
+        if data['phone'] < 70000000000 or data['phone'] > 79999999999:
+            raise serializers.ValidationError("Enter phone in the 7XXXXXXXXXX form")
+        return data
 
 
 class MessageSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Message
-        fields = ['id', 'sent_time', 'delivery_status', 'notification_id', 'client_id']
+        fields = ['url', 'id', 'sent_time', 'delivery_status', 'notification_id', 'client_id']

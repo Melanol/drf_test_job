@@ -10,10 +10,10 @@ class Notification(models.Model):
 
 
 class Client(models.Model):
-    phone = models.IntegerField()  # 7XXXXXXXXXX
+    phone = models.IntegerField(blank=False, null=False, unique=True)
     operator_code = models.IntegerField(editable=False)
     tag = models.CharField(max_length=255, blank=True)
-    timezone = models.IntegerField(default=0)
+    timezone = models.IntegerField(null=False, default=0)
 
     def save(self, *args, **kwargs):
         self.operator_code = int(str(self.phone)[1:4])
