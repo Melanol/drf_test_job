@@ -34,12 +34,14 @@ class NotificationViewSet(viewsets.ModelViewSet):
 
     @action(detail=True)
     def send(self, request, *args, **kwargs):
+        from notifications.tasks import add
+        add.delay(1, 1)
         notification = self.get_object()
         clients = Client.objects.all()
 
         # Filtering
         if notification.filter:
-            filter = literal_eval(notification.filter)
+            filter = literal_eval(notification.filter)  # Safe version of eval
             operator_codes, tags = filter
             out_clients = []
             for client in clients:
