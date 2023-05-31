@@ -27,7 +27,6 @@ def add(x, y):
 
 @app.task
 def notify(notification_id, client_id, phone, text):
-    # TODO: send/2 is dead
     from notifications.models import Message
     message = Message(delivery_init_time=datetime.now(),
                       delivery_status='initiated',

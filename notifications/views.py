@@ -55,19 +55,6 @@ class NotificationViewSet(viewsets.ModelViewSet):
             notify.delay(notification.id, client.id, client.phone, notification.text)
         return JsonResponse({'status': 'OK', 'details': 'Tasks initiated'})
 
-        #     message = Message(notification_id=notification.id, client_id=client.id)
-        #     message.save()
-        #     request_body = {
-        #         "id": message.id,
-        #         "phone": client.phone,
-        #         "text": notification.text
-        #     }
-        #     response = requests.post(f"https://probe.fbrq.cloud/v1/send/{message.id}",
-        #                              headers={"Authorization": f"Bearer {settings.TOKEN}"},
-        #                              json=request_body)
-        #     responses[message.id] = response.json()
-        # return JsonResponse(responses)
-
 
 class ClientViewSet(viewsets.ModelViewSet):
     """
