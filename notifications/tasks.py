@@ -25,8 +25,9 @@ def add(x, y):
     return x + y
 
 
+# TODO: "Object of type Notification is not JSON serializable" when sending objects
 @app.task
-def notify(notification_id, client_id, phone, text):
+def notify(notification_id, client_id, phone, text, stop_sending_time):
     from notifications.models import Message
     message = Message(delivery_init_time=datetime.now(),
                       delivery_status='initiated',
@@ -38,14 +39,21 @@ def notify(notification_id, client_id, phone, text):
         "phone": phone,
         "text": text
     }
+    # TODO: Send in the future
     while True:
-        response = requests.post(f"https://probe.fbrq.cloud/v1/send/{message.id}",
-                             headers={"Authorization": f"Bearer {settings.TOKEN}"},
-                             json=request_body)
-        if response.status_code == 200:
-            message.delivered_time = datetime.now()
-            message.delivery_status = 'delivered'
-            message.save()
-            return response.json()
+        if datetime.now() < datetime.strptime(stop_sending_time, '%Y-%m-%dT%H:%M:%S.%fZ'):
+            response = requests.post(f"https://probe.fbrq.cloud/v1/send/{message.id}",
+                                 headers={"Authorization": f"Bearer {settings.TOKEN}"},
+                                 json=request_body)
+            if response.status_code == 200:
+                message.delivered_time = datetime.now()
+                message.delivery_status = 'delivered'
+                message.save()
+                # return response.json()
+                return "delivered"
+            else:
+                time.sleep(1)
         else:
-            time.sleep(1)
+            message.delivery_status = 'stop sending time reached'
+            message.save()
+            return 'stop sending time reached'
