@@ -52,7 +52,11 @@ class NotificationViewSet(viewsets.ModelViewSet):
         # Send messages
         responses = {}
         for client in clients:
-            notify.delay(notification.id, client.id, client.phone, notification.text,
+            notify.delay(notification.id,
+                         client.id,
+                         client.phone,
+                         notification.text,
+                         notification.send_time,
                          notification.stop_sending_time)
         return JsonResponse({'status': 'OK', 'details': 'Tasks initiated'})
 

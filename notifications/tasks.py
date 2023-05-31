@@ -27,7 +27,7 @@ def add(x, y):
 
 # TODO: "Object of type Notification is not JSON serializable" when sending objects
 @app.task
-def notify(notification_id, client_id, phone, text, stop_sending_time):
+def notify(notification_id, client_id, phone, text, send_time, stop_sending_time):
     from notifications.models import Message
     message = Message(delivery_init_time=datetime.now(),
                       delivery_status='initiated',
@@ -39,23 +39,24 @@ def notify(notification_id, client_id, phone, text, stop_sending_time):
         "phone": phone,
         "text": text
     }
-    # TODO: Send in the future
-
     stop_sending_time = datetime.strptime(stop_sending_time, '%Y-%m-%dT%H:%M:%S.%f')
+    send_time = datetime.strptime(send_time, '%Y-%m-%dT%H:%M:%S.%f')
     while True:
-        if datetime.now() < stop_sending_time:
-            response = requests.post(f"https://probe.fbrq.cloud/v1/send/{message.id}",
-                                 headers={"Authorization": f"Bearer {settings.TOKEN}"},
-                                 json=request_body)
-            if response.status_code == 200:
-                message.delivered_time = datetime.now()
-                message.delivery_status = 'delivered'
-                message.save()
-                # return response.json()
-                return "delivered"
+        if send_time < datetime.now():
+            if datetime.now() < stop_sending_time:
+                response = requests.post(f"https://probe.fbrq.cloud/v1/send/{message.id}",
+                                     headers={"Authorization": f"Bearer {settings.TOKEN}"},
+                                     json=request_body)
+                if response.status_code == 200:
+                    message.delivered_time = datetime.now()
+                    message.delivery_status = 'delivered'
+                    message.save()
+                    return "delivered"
+                else:
+                    time.sleep(1)
             else:
-                time.sleep(1)
+                message.delivery_status = 'stop sending time reached'
+                message.save()
+                return 'stop sending time reached'
         else:
-            message.delivery_status = 'stop sending time reached'
-            message.save()
-            return 'stop sending time reached'
+            time.sleep(1)
