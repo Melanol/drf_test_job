@@ -40,8 +40,10 @@ def notify(notification_id, client_id, phone, text, stop_sending_time):
         "text": text
     }
     # TODO: Send in the future
+
+    stop_sending_time = datetime.strptime(stop_sending_time, '%Y-%m-%dT%H:%M:%S.%f')
     while True:
-        if datetime.now() < datetime.strptime(stop_sending_time, '%Y-%m-%dT%H:%M:%S.%fZ'):
+        if datetime.now() < stop_sending_time:
             response = requests.post(f"https://probe.fbrq.cloud/v1/send/{message.id}",
                                  headers={"Authorization": f"Bearer {settings.TOKEN}"},
                                  json=request_body)
