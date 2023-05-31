@@ -22,7 +22,8 @@ class Client(models.Model):
 
 
 class Message(models.Model):
-    sent_time = models.DateTimeField(null=True, blank=True)
+    delivery_init_time = models.DateTimeField(null=True, blank=True)
+    delivered_time = models.DateTimeField(null=True, blank=True)
     delivery_status = models.CharField(max_length=255)
     notification_id = models.IntegerField()
     client_id = models.IntegerField()

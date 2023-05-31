@@ -34,7 +34,6 @@ class NotificationViewSet(viewsets.ModelViewSet):
 
     @action(detail=True)
     def send(self, request, *args, **kwargs):  # TODO: Uses GET instead of POST
-        # TODO: send/2 is dead
         from notifications.tasks import add, notify
         # add.delay(23, 2)
         notification = self.get_object()
