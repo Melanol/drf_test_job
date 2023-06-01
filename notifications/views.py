@@ -1,5 +1,6 @@
 from ast import literal_eval
 
+from django.db.models import Count
 from django.http import HttpResponse, JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.reverse import reverse
@@ -73,11 +74,20 @@ class MessageViewSet(viewsets.ModelViewSet):
 
 class Statistics(APIView):
     def get(self, request, format=None):
-        from django.http import JsonResponse
-        from django.db.models import Count
         messages = Message.objects.all().values('delivery_status').annotate(total=Count('delivery_status'))
         arr = []
         for el in messages:
             arr.append(el)
+        return JsonResponse(arr, safe=False)
 
+
+class StatisticsDetail(APIView):
+    def get(self, request, pk, format=None):
+        message_agg = Message.objects.filter(notification_id=pk).values('delivery_status').annotate(total=Count('delivery_status'))
+        arr = []
+        for el in message_agg:
+            message_ids = Message.objects.filter(notification_id=pk).filter(delivery_status=el['delivery_status']).values('id')
+            message_ids = [el['id'] for el in list(message_ids)]
+            el['message_ids'] = str(message_ids)
+            arr.append(el)
         return JsonResponse(arr, safe=False)
