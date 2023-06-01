@@ -28,7 +28,7 @@ class NotificationViewSet(viewsets.ModelViewSet):
     serializer_class = NotificationSerializer
 
     @action(detail=True, methods=['post'])
-    def send(self, request, *args, **kwargs):  # TODO: Uses GET instead of POST
+    def send(self, request, *args, **kwargs):
         from notifications.tasks import add, notify
         # add.delay(23, 2)
         notification = self.get_object()
