@@ -1,0 +1,5 @@
+celery==5.2.7
+Django==4.2.1
+django_environ==0.10.0
+djangorestframework==3.14.0
+Requests==2.31.0
