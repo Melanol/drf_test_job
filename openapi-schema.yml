@@ -1,0 +1,614 @@
+openapi: 3.0.2
+info:
+  title: ''
+  version: ''
+paths:
+  /notifications/:
+    get:
+      operationId: listNotifications
+      description: List all notifications, create a new notification and send messages.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=4
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=2
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Notification'
+          description: ''
+      tags:
+      - notifications
+    post:
+      operationId: createNotification
+      description: List all notifications, create a new notification and send messages.
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Notification'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Notification'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Notification'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+          description: ''
+      tags:
+      - notifications
+  /notifications/{id}/:
+    get:
+      operationId: retrieveNotification
+      description: List all notifications, create a new notification and send messages.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this notification.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+          description: ''
+      tags:
+      - notifications
+    put:
+      operationId: updateNotification
+      description: List all notifications, create a new notification and send messages.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this notification.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Notification'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Notification'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Notification'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+          description: ''
+      tags:
+      - notifications
+    patch:
+      operationId: partialUpdateNotification
+      description: List all notifications, create a new notification and send messages.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this notification.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Notification'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Notification'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Notification'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+          description: ''
+      tags:
+      - notifications
+    delete:
+      operationId: destroyNotification
+      description: List all notifications, create a new notification and send messages.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this notification.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - notifications
+  /clients/:
+    get:
+      operationId: listClients
+      description: List all clients, or create a new client.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=4
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=2
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Client'
+          description: ''
+      tags:
+      - clients
+    post:
+      operationId: createClient
+      description: List all clients, or create a new client.
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Client'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Client'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Client'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+          description: ''
+      tags:
+      - clients
+  /clients/{id}/:
+    get:
+      operationId: retrieveClient
+      description: List all clients, or create a new client.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this client.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+          description: ''
+      tags:
+      - clients
+    put:
+      operationId: updateClient
+      description: List all clients, or create a new client.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this client.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Client'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Client'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Client'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+          description: ''
+      tags:
+      - clients
+    patch:
+      operationId: partialUpdateClient
+      description: List all clients, or create a new client.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this client.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Client'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Client'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Client'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+          description: ''
+      tags:
+      - clients
+    delete:
+      operationId: destroyClient
+      description: List all clients, or create a new client.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this client.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - clients
+  /messages/:
+    get:
+      operationId: listMessages
+      description: List all messages, or create a new message.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=4
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=2
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Message'
+          description: ''
+      tags:
+      - messages
+    post:
+      operationId: createMessage
+      description: List all messages, or create a new message.
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Message'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Message'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Message'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+          description: ''
+      tags:
+      - messages
+  /messages/{id}/:
+    get:
+      operationId: retrieveMessage
+      description: List all messages, or create a new message.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this message.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+          description: ''
+      tags:
+      - messages
+    put:
+      operationId: updateMessage
+      description: List all messages, or create a new message.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this message.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Message'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Message'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Message'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+          description: ''
+      tags:
+      - messages
+    patch:
+      operationId: partialUpdateMessage
+      description: List all messages, or create a new message.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this message.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Message'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Message'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Message'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+          description: ''
+      tags:
+      - messages
+    delete:
+      operationId: destroyMessage
+      description: List all messages, or create a new message.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this message.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - messages
+  /statistics/:
+    get:
+      operationId: listStatistics
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+      tags:
+      - statistics
+  /statistics/{id}:
+    get:
+      operationId: retrieveStatisticsDetail
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+      tags:
+      - statistics
+  /notifications/{id}/send/:
+    post:
+      operationId: sendNotification
+      description: List all notifications, create a new notification and send messages.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this notification.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Notification'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Notification'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Notification'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+          description: ''
+      tags:
+      - notifications
+components:
+  schemas:
+    Notification:
+      type: object
+      properties:
+        url:
+          type: string
+          readOnly: true
+        id:
+          type: integer
+          readOnly: true
+        send:
+          type: string
+          readOnly: true
+        send_time:
+          type: string
+          format: date-time
+        text:
+          type: string
+          maxLength: 255
+        filter:
+          type: string
+          maxLength: 255
+        stop_sending_time:
+          type: string
+          format: date-time
+    Client:
+      type: object
+      properties:
+        url:
+          type: string
+          readOnly: true
+        id:
+          type: integer
+          readOnly: true
+        phone:
+          type: integer
+        operator_code:
+          type: integer
+          readOnly: true
+        tag:
+          type: string
+          maxLength: 255
+        timezone:
+          type: string
+      required:
+      - phone
+      - timezone
+    Message:
+      type: object
+      properties:
+        url:
+          type: string
+          readOnly: true
+        delivery_init_time:
+          type: string
+          format: date-time
+          nullable: true
+        delivered_time:
+          type: string
+          format: date-time
+          nullable: true
+        delivery_status:
+          type: string
+          maxLength: 255
+        notification_id:
+          type: integer
+        client_id:
+          type: integer
+      required:
+      - delivery_status
+      - notification_id
+      - client_id
