@@ -11,4 +11,5 @@ router.register(r'messages', views.MessageViewSet, basename="message")
 # The API URLs are now determined automatically by the router.
 urlpatterns = [
     path('', include(router.urls)),
+    path('statistics/', views.Statistics.as_view())
 ]

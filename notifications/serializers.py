@@ -30,4 +30,4 @@ class ClientSerializer(serializers.HyperlinkedModelSerializer):
 class MessageSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Message
-        fields = ['url', 'id', 'delivery_init_time', 'delivered_time', 'delivery_status', 'notification_id', 'client_id']
+        fields = "__all__"

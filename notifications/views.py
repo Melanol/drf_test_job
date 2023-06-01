@@ -1,20 +1,14 @@
 from ast import literal_eval
 
 from django.http import HttpResponse, JsonResponse
-import requests
-from rest_framework.parsers import JSONParser
-from rest_framework import status
 from rest_framework.decorators import api_view
-from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework import permissions
+from rest_framework.views import APIView
 
-from django.conf import settings
-from notifications.models import Notification, Client, Message
-from notifications.serializers import NotificationSerializer, ClientSerializer, MessageSerializer
+from notifications.serializers import *
 
 
 @api_view(['GET'])
@@ -32,7 +26,7 @@ class NotificationViewSet(viewsets.ModelViewSet):
     queryset = Notification.objects.all()
     serializer_class = NotificationSerializer
 
-    @action(detail=True)
+    @action(detail=True, methods=['post'])
     def send(self, request, *args, **kwargs):  # TODO: Uses GET instead of POST
         from notifications.tasks import add, notify
         # add.delay(23, 2)
@@ -75,3 +69,15 @@ class MessageViewSet(viewsets.ModelViewSet):
     """
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
+
+
+class Statistics(APIView):
+    def get(self, request, format=None):
+        from django.http import JsonResponse
+        from django.db.models import Count
+        messages = Message.objects.all().values('delivery_status').annotate(total=Count('delivery_status'))
+        arr = []
+        for el in messages:
+            arr.append(el)
+
+        return JsonResponse(arr, safe=False)
